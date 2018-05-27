@@ -3,7 +3,7 @@ import os
 
 from flask import Flask
 from flask_ask import Ask, request, session, question, statement
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 app = Flask(__name__)
 ask = Ask(app, "/")
@@ -12,11 +12,10 @@ logging.getLogger('flask_ask').setLevel(logging.DEBUG)
 STATUSON = ['on','high']
 STATUSOFF = ['off','low']
 
-"""
+
 #GPIO Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17,GPIO.OUT)
-"""
 
 @ask.launch
 def launch():
@@ -33,13 +32,13 @@ def hello_world():
 def Gpio_Intent(status):
     if status in STATUSON:
         #Controlling GPIO
-        #GPIO.out(17,GPIO.HIGH)
+        GPIO.out(17,GPIO.HIGH)
         return statement('opening {}'.format(status))
     elif status in STATUSOFF:
         #Controlling GPIO
-        #GPIO.out(17,GPIO.LOW)
+        GPIO.out(17,GPIO.LOW)
         return statement('closing {}'.format(status))
-    #return statement('not sure')
+    return statement('not sure')
 
 @ask.intent('AMAZON.HelpIntent')
 def help():
